@@ -7,9 +7,9 @@ import conf from './conf.js';
  * 直传文件
  * formInput对象如何配置请参考七牛官方文档“直传文件”一节
  */
-function uploadFile(uri, token, formInput, onprogress) {
+function uploadFile(uri, token, formInput = {}, onprogress) {
   return new Promise((resolve, reject)=> {
-    if (typeof uri != 'string' || uri == '' || typeof formInput.key == 'undefined') {
+    if (typeof uri != 'string' || uri == '') {
       reject && reject(null);
       return;
     }
@@ -41,7 +41,7 @@ function uploadFile(uri, token, formInput, onprogress) {
     }
     
     var formdata = new FormData();
-    formdata.append("key", formInput.key);
+    if (typeof formInput.key !== 'undefined') formdata.append("key", formInput.key);
     formdata.append("token", token);
     if (typeof formInput.type == 'undefined')
       formInput.type = 'application/octet-stream';
